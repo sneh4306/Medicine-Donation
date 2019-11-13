@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2019 at 12:04 PM
+-- Generation Time: Nov 13, 2019 at 11:04 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.2.24
 
@@ -34,9 +34,17 @@ CREATE TABLE `medicine_donate` (
   `Mname` varchar(50) NOT NULL,
   `Count` int(7) NOT NULL,
   `Expiry_month` varchar(10) NOT NULL,
-  `Expiry_year` int(4) NOT NULL,
+  `Expiry_year` varchar(4) NOT NULL,
   `Uid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medicine_donate`
+--
+
+INSERT INTO `medicine_donate` (`Mid`, `Mtype`, `Mname`, `Count`, `Expiry_month`, `Expiry_year`, `Uid`) VALUES
+(3, 'Analgesics', 'codeine', 5, '06', '2021', 4),
+(63, 'Antipyretic', 'Paracetamol', 2, '06', '2020', 4);
 
 -- --------------------------------------------------------
 
@@ -57,7 +65,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Id`, `Name`, `Contact`, `Email`, `Pass`) VALUES
+(4, 'Sneh', 9999999999, 'haha@g.com', 'lM68YvC9WFcY+QyLlQiNbKUIWSmbB+FcUUIsGJLsXnM='),
+(11, 'Neelay', 1234567890, 'n@g.com', '4VE0+57srmeF8vrEGFMGXpjtUtqBOo0rw2O+HAD994c='),
 (28, 'Sneh', 9999999999, 'hihi@g.com', 'lM68YvC9WFcY+QyLlQiNbKUIWSmbB+FcUUIsGJLsXnM='),
+(46, 'Admin', 9999999999, 'admin@gmail.com', 'IrfexzBdY+LHabDJFBEU5poZTMhTtETHO3vjoHcbYoo='),
 (95, 'Grusha', 1234567890, 'hohoh@g.com', 'rjCx+BN/Kxe9IAd7BryIeduAqQxhbNUFivkaqDvo+IY=');
 
 --
@@ -76,16 +87,6 @@ ALTER TABLE `medicine_donate`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `medicine_donate`
---
-ALTER TABLE `medicine_donate`
-  MODIFY `Mid` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

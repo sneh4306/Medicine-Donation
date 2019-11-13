@@ -31,6 +31,9 @@ namespace MedicineDonation
             errorProvider3.SetError(textBox5, "Cannot be empty");
             errorProvider4.SetError(textBox6, "Cannot be empty");
             errorProvider5.SetError(textBox7, "Cannot be empty");
+            errorProvider6.SetError(textBox1, "Cannot be empty");
+            errorProvider7.SetError(textBox2, "Cannot be empty");
+            errorProvider8.SetError(textBox8, "Cannot be empty");
             mySqlConnection = new MySqlConnection("data source = 127.0.0.1;port=3306;username=root;password=; database = medicine;");
             mySqlConnection.Open();
             id_list = new List<int>();
@@ -49,6 +52,11 @@ namespace MedicineDonation
             groupBox1.Hide();
             label3.Hide();
             button2.Hide();
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+            textBox7.Text = "";
         }
 
         private void Button4_Click(object sender, EventArgs e)
@@ -58,6 +66,9 @@ namespace MedicineDonation
             button2.Show();
             groupBox2.Hide();
             button4.Hide();
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox8.Text = "";
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -110,6 +121,7 @@ namespace MedicineDonation
                 sqlCommand.Parameters.AddWithValue("@Pass", hash1);
                 sqlCommand.ExecuteNonQuery();
                 MessageBox.Show("You are Registered. Your id for future access is: "+id_gen.ToString()+ ".Please note it down for future access");
+                
                 textBox3.Text = "";
                 textBox4.Text = "";
                 textBox5.Text = "";
@@ -263,6 +275,137 @@ namespace MedicineDonation
             }
 
         }
-        
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            
+            if(islogin())
+            {
+                MySqlConnection mySqlConnection1 = new MySqlConnection("data source = 127.0.0.1;port=3306;username=root;password=; database = medicine;");
+                mySqlConnection1.Open();
+                string query = "SELECT * from users where Id=@id";
+                MySqlCommand sqlcommand1 = new MySqlCommand(query, mySqlConnection1);
+                sqlcommand1.Parameters.AddWithValue("@id", textBox8.Text);
+                MySqlDataReader datareader1 = sqlcommand1.ExecuteReader();
+                //mySqlConnection1.Open();
+                String email,pass;
+
+                if (datareader1.HasRows)
+                {
+                    while(datareader1.Read())
+                    {
+                        email = datareader1.GetString(3);
+                        pass = datareader1.GetString(4);
+                        //textBox9.Text=email;
+                        //textBox10.Text=pass;
+                       // textBox9.PasswordChar = "";
+
+
+                        String pass1 = textBox2.Text;
+                        var sha1 = SHA256.Create();
+                        var bytes1 = Encoding.UTF8.GetBytes(pass1);
+                        var hash1 = sha1.ComputeHash(bytes1);
+                        String hash2 = Convert.ToBase64String(hash1);
+                        //textBox11.Text = hash2;
+                        String em = textBox1.Text;
+                        if((hash2 == pass) && (email == em))
+                        {
+                            MessageBox.Show("Login successful");
+                            //datareader1.Close();
+                            if(email == "admin@gmail.com")
+                            {
+                                Form3 f3 = new Form3(textBox8.Text);
+                                f3.Show();
+                                this.Dispose();
+                            }
+                            else
+                            {
+                                Form2 f2 = new Form2(textBox8.Text);
+                                f2.Show();
+                                this.Hide();
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Enter proper credentials");
+                            //datareader1.Close();
+                            textBox1.Text = "";
+                            textBox2.Text = "";
+                            textBox8.Text = "";
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Enter correct Id");
+                    //datareader1.Close();
+                    textBox1.Text = ""; 
+                    textBox2.Text = "";
+                    textBox8.Text = "";
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Fill all fields");
+            }
+
+        }
+        private bool islogin()
+        {
+            if (errorProvider6.GetError(textBox1) != "")
+                return false;
+            else if (errorProvider7.GetError(textBox2) != "")
+                return false;
+            else if (errorProvider8.GetError(textBox8) != "")
+                return false;
+            else
+                return true;
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox8.Text))
+            {
+                errorProvider8.SetError(textBox8, "cannot be empty");
+
+            }
+            else
+            {
+                errorProvider8.Clear();
+
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                errorProvider6.SetError(textBox1, "cannot be empty");
+
+            }
+            else
+            {
+                errorProvider6.Clear();
+
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox2.Text))
+            {
+                errorProvider7.SetError(textBox2, "cannot be empty");
+
+            }
+            else
+            {
+                errorProvider7.Clear();
+
+            }
+        }
     }
 }
