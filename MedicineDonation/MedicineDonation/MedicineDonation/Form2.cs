@@ -25,6 +25,7 @@ namespace MedicineDonation
             InitializeComponent();
             //comboBox2.Items.
             this.user_id = id;
+            richTextBox1.Hide();
             mySqlConnection = new MySqlConnection("data source = 127.0.0.1;port=3306;username=root;password=; database = medicine;");
             mySqlConnection.Open();
             string query = "SELECT * from users where Id=@id";
@@ -112,10 +113,10 @@ namespace MedicineDonation
             if(isValidate() && isdateValid())
             {
                 Random r = new Random();
-                int id_gen = r.Next(1, 100);
+                int id_gen = r.Next(1, 1000);
                 while (id_list.Contains(id_gen))
                 {
-                    id_gen = r.Next(1, 100);
+                    id_gen = r.Next(1, 1000);
                 }
                 id_list.Add(id_gen);
                 String mtype = comboBox1.SelectedItem.ToString();
@@ -125,7 +126,7 @@ namespace MedicineDonation
                 string mname = enable_select();
                 MySqlConnection mySqlConnection1 = new MySqlConnection("data source = 127.0.0.1;port=3306;username=root;password=; database = medicine;");
                 mySqlConnection1.Open();
-                String query = "INSERT INTO medicine_donate VALUES(@Mid,@Mtype,@Mname,@Count,@Expiry_month,@Expiry_year,@Uid)";
+                String query = "INSERT INTO medicine_donate VALUES(@Mid,@Mtype,@Mname,@Count,@Expiry_month,@Expiry_year,@Uid,@Approved,@Checked)";
                 MySqlCommand sqlCommand = new MySqlCommand(query, mySqlConnection);
                 sqlCommand.Parameters.AddWithValue("@Mid", id_gen);
                 sqlCommand.Parameters.AddWithValue("@Mtype", mtype);
@@ -134,6 +135,9 @@ namespace MedicineDonation
                 sqlCommand.Parameters.AddWithValue("@Expiry_month", ex_mon);
                 sqlCommand.Parameters.AddWithValue("@Expiry_year", ex_year);
                 sqlCommand.Parameters.AddWithValue("@Uid", user_id);
+                sqlCommand.Parameters.AddWithValue("@Approved", "No");
+                sqlCommand.Parameters.AddWithValue("@Checked", "No");
+
                 sqlCommand.ExecuteNonQuery();
                 MessageBox.Show("Medicine has been donated");
                 comboBox1.SelectedIndex = -1;
@@ -254,6 +258,39 @@ namespace MedicineDonation
                 return radioButton3.Text;
             else
                 return radioButton4.Text;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Show();
+            MySqlConnection mySqlConnection5 = new MySqlConnection("data source = 127.0.0.1;port=3306;username=root;password=; database = medicine;");
+            mySqlConnection5.Open();
+            String query3 = "SELECT * from medicine_donate where Uid=@uid && Approved=@Approved && Checked=@Checked";
+            MySqlCommand sqlcommand5 = new MySqlCommand(query3, mySqlConnection5);
+            sqlcommand5.Parameters.AddWithValue("@uid", user_id);
+            sqlcommand5.Parameters.AddWithValue("@Approved", "Yes");
+            sqlcommand5.Parameters.AddWithValue("@Checked", "No");
+            //MySqlDataReader dr = sqlcommand5.ExecuteReader();
+            MySqlDataAdapter da1 = new MySqlDataAdapter(sqlcommand5);
+            DataSet ds = new DataSet();
+            da1.Fill(ds);
+            richTextBox1.Text = "";
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+
+                richTextBox1.Text += ds.Tables[0].Rows[i]["Mname"].ToString()+"\n";
+                String q = "Update medicine_donate SET Checked=@Checked where Mid=@mid";
+                MySqlCommand sqlcommand4 = new MySqlCommand(q, mySqlConnection5);
+                sqlcommand4.Parameters.AddWithValue("@Checked", "Yes");
+                sqlcommand4.Parameters.AddWithValue("@mid", ds.Tables[0].Rows[i]["Mid"].ToString());
+                sqlcommand4.ExecuteNonQuery();
+
+            }
+
+                
+            
+
         }
     }
 }

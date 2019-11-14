@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2019 at 11:04 PM
+-- Generation Time: Nov 14, 2019 at 06:06 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.2.24
 
@@ -35,16 +35,24 @@ CREATE TABLE `medicine_donate` (
   `Count` int(7) NOT NULL,
   `Expiry_month` varchar(10) NOT NULL,
   `Expiry_year` varchar(4) NOT NULL,
-  `Uid` int(10) NOT NULL
+  `Uid` int(10) NOT NULL,
+  `Approved` varchar(5) NOT NULL,
+  `Checked` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `medicine_donate`
 --
 
-INSERT INTO `medicine_donate` (`Mid`, `Mtype`, `Mname`, `Count`, `Expiry_month`, `Expiry_year`, `Uid`) VALUES
-(3, 'Analgesics', 'codeine', 5, '06', '2021', 4),
-(63, 'Antipyretic', 'Paracetamol', 2, '06', '2020', 4);
+INSERT INTO `medicine_donate` (`Mid`, `Mtype`, `Mname`, `Count`, `Expiry_month`, `Expiry_year`, `Uid`, `Approved`, `Checked`) VALUES
+(3, 'Analgesics', 'codeine', 5, '06', '2021', 4, 'Yes', 'Yes'),
+(13, 'Antipyretic', 'Iodophors', 1, '10', '2020', 95, 'No', 'No'),
+(24, 'Analgesics', 'fentanyl ', 2, '08', '2020', 57, 'No', 'No'),
+(48, 'Antiseptics', 'Hexachlorophene', 6, '06', '2021', 95, 'Yes', 'Yes'),
+(63, 'Antipyretic', 'Paracetamol', 2, '06', '2020', 4, 'Yes', 'Yes'),
+(238, 'Analgesics', 'fentanyl ', 1, '06', '2020', 296, 'Yes', 'Yes'),
+(632, 'Antibiotics', 'metronidazole', 6, '03', '2020', 4, 'Yes', 'Yes'),
+(865, 'Analgesics', 'morphine ', 1, '07', '2020', 57, 'Yes', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -69,7 +77,10 @@ INSERT INTO `users` (`Id`, `Name`, `Contact`, `Email`, `Pass`) VALUES
 (11, 'Neelay', 1234567890, 'n@g.com', '4VE0+57srmeF8vrEGFMGXpjtUtqBOo0rw2O+HAD994c='),
 (28, 'Sneh', 9999999999, 'hihi@g.com', 'lM68YvC9WFcY+QyLlQiNbKUIWSmbB+FcUUIsGJLsXnM='),
 (46, 'Admin', 9999999999, 'admin@gmail.com', 'IrfexzBdY+LHabDJFBEU5poZTMhTtETHO3vjoHcbYoo='),
-(95, 'Grusha', 1234567890, 'hohoh@g.com', 'rjCx+BN/Kxe9IAd7BryIeduAqQxhbNUFivkaqDvo+IY=');
+(57, 'Dhruvin', 9999999999, 'd@g.com', '9mYYCuAobG8Gm9zwk6MRd6rWl+LrS6ZOWu9lZu/fvdg='),
+(95, 'Grusha', 1234567890, 'hohoh@g.com', 'rjCx+BN/Kxe9IAd7BryIeduAqQxhbNUFivkaqDvo+IY='),
+(296, 'Sneh Chitalia', 1234567890, 'sneh@g.com', 'lM68YvC9WFcY+QyLlQiNbKUIWSmbB+FcUUIsGJLsXnM='),
+(708, 'Shiv', 9999999999, 'shiv@g.com', 'MtD4RtIGcGyukWGzKwVWkhpPNU+bJtwXrIwm/xbKUeY=');
 
 --
 -- Indexes for dumped tables

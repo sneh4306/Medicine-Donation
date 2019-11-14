@@ -97,10 +97,10 @@ namespace MedicineDonation
             {
                 //textBox8.Text = f.ToString();
                 Random r = new Random();
-                int id_gen = r.Next(1, 100);
+                int id_gen = r.Next(1, 1000);
                 while(id_list.Contains(id_gen))
                 {
-                    id_gen = r.Next(1, 100);
+                    id_gen = r.Next(1, 1000);
                 }
                 id_list.Add(id_gen);
                 String name = textBox3.Text;
@@ -317,7 +317,7 @@ namespace MedicineDonation
                             {
                                 Form3 f3 = new Form3(textBox8.Text);
                                 f3.Show();
-                                this.Dispose();
+                                this.Hide();
                             }
                             else
                             {
